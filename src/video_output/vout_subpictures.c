@@ -1513,12 +1513,16 @@ static vlc_render_subpicture *SpuRenderSubpictures(spu_t *spu,
                 output_last_ptr->place.y += video_position->y;
             }
 
-            if (cache_pos != NULL)
-            {
-                region->b_absolute = false; // back to the original state
-                assert(output_last_ptr->place.x == cache_pos->x);
-                assert(output_last_ptr->place.y == cache_pos->y);
-            }
+         if (cache_pos != NULL)
+{
+    region->b_absolute = false; // back to the original state
+    msg_Info(p_vout, "output_last_ptr->place: (%d, %d)", output_last_ptr->place.x, output_last_ptr->place.y);
+    msg_Info(p_vout, "cache_pos: (%d, %d)", cache_pos->x, cache_pos->y);
+
+    assert(output_last_ptr->place.x == cache_pos->x);
+    assert(output_last_ptr->place.y == cache_pos->y);
+}
+
 
             vlc_vector_push(&output->regions, output_last_ptr);
 
