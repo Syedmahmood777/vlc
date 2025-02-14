@@ -1514,11 +1514,16 @@ static vlc_render_subpicture *SpuRenderSubpictures(spu_t *spu,
             }
 
             if (cache_pos != NULL)
-            {
-                region->b_absolute = false; // back to the original state
-                assert(output_last_ptr->place.x == cache_pos->x);
-                assert(output_last_ptr->place.y == cache_pos->y);
-            }
+{
+    region->b_absolute = false; // back to the original state
+
+    if (output_last_ptr->place.x != cache_pos->x)
+        msg_Warn(p_vout, "Subtitle X-position mismatch: %d != %d", output_last_ptr->place.x, cache_pos->x);
+
+    if (output_last_ptr->place.y != cache_pos->y)
+        msg_Warn(p_vout, "Subtitle Y-position mismatch: %d != %d", output_last_ptr->place.y, cache_pos->y);
+}
+
 
             vlc_vector_push(&output->regions, output_last_ptr);
 
